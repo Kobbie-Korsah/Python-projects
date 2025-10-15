@@ -1,26 +1,38 @@
-import sys
-import requests
-from PyQt5.QtWidgets import (QApplication, QWidget, QLabel,
-QLineEdit, QPushButton, QVBoxLayout)
+# Import necessary modules
+import sys                    # Provides access to system-specific parameters and exit functionality
+import requests               # Used to make HTTP requests to the OpenWeatherMap API
+from PyQt5.QtWidgets import (  # Importing PyQt5 widgets for GUI elements
+    QApplication, QWidget, QLabel,
+    QLineEdit, QPushButton, QVBoxLayout
+)
+from PyQt5.QtCore import Qt    # For alignment and Qt constants
 
-from PyQt5.QtCore import Qt
-
+# Define the main WeatherApp class, inheriting from QWidget
 class WeatherApp(QWidget):
     def __init__(self):
-        super().__init__()
-        self.city_label = QLabel("Enter city name: ", self)
-        self.city_input = QLineEdit(self)
-        self.get_weather_button = QPushButton("Get Weather", self)
+        super().__init__()  # Initialize the parent QWidget
+
+        # Create GUI widgets
+        self.city_label = QLabel("Enter city name: ", self)  # Label prompting for city name
+        self.city_input = QLineEdit(self)                    # Input field for user to type the city
+        self.get_weather_button = QPushButton("Get Weather", self)  # Button to fetch weather data
+
+        # Empty labels to display weather data dynamically (will be updated later)
         self.temperature_label = QLabel(self)
         self.emoji_label = QLabel(self)
         self.description_label = QLabel(self)
+
+        # Initialize layout, styling, and signals
         self.initUI()
 
     def initUI(self):
-        self.setWindowTitle("Weather App")
+        """Sets up layout, alignment, style, and connects events."""
+        self.setWindowTitle("Weather App")  # Window title
 
+        # Create vertical layout to stack widgets top-to-bottom
         vbox = QVBoxLayout()
 
+        # Add widgets to the layout
         vbox.addWidget(self.city_label)
         vbox.addWidget(self.city_input)
         vbox.addWidget(self.get_weather_button)
@@ -28,14 +40,17 @@ class WeatherApp(QWidget):
         vbox.addWidget(self.emoji_label)
         vbox.addWidget(self.description_label)
 
+        # Apply layout to the main window
         self.setLayout(vbox)
         
+        # Center-align all widgets
         self.city_label.setAlignment(Qt.AlignCenter)
         self.city_input.setAlignment(Qt.AlignCenter)
         self.temperature_label.setAlignment(Qt.AlignCenter)
         self.emoji_label.setAlignment(Qt.AlignCenter)
         self.description_label.setAlignment(Qt.AlignCenter)
 
+        # Assign unique object names for styling
         self.city_label.setObjectName("city_label")
         self.city_input.setObjectName("city_input")
         self.get_weather_button.setObjectName("get_weather_button")
@@ -43,50 +58,56 @@ class WeatherApp(QWidget):
         self.emoji_label.setObjectName("emoji_label")
         self.description_label.setObjectName("description_label")
         
+        # Apply CSS-style appearance for widgets
         self.setStyleSheet("""
-            QLabel, QPushButton{
+            QLabel, QPushButton {
                 font-family: calibri;
             }
-            QLabel#city_label{
+            QLabel#city_label {
                 font-size: 40px;
                 font-style: italic;
             }
-            QLineEdit#city_input{
+            QLineEdit#city_input {
                 font-size: 40px;
             }
-            QPushButton#get_weather_button{
+            QPushButton#get_weather_button {
                 font-size: 30px;
                 font-weight: bold;
             }
-            QLabel#temperature_label{
+            QLabel#temperature_label {
                 font-size: 75px;
             }
-            QLabel#emoji_label{
+            QLabel#emoji_label {
                 font-size: 100px;
                 font-family: Segoe UI emoji;
             }
-            QLabel#description_label{
+            QLabel#description_label {
                 font-size: 50px;
             }
         """)
 
+        # Connect the "Get Weather" button to the get_weather() function
         self.get_weather_button.clicked.connect(self.get_weather)
 
     def get_weather(self):
-
+        """Fetches weather data from the OpenWeatherMap API for the entered city."""
+        # OpenWeatherMap API key and base URL
         api_key = "022b7eeda3d75c2c6bc5e9d9830f6d3d"
-        city = self.city_input.text()
+        city = self.city_input.text()  # Get the city name from user input
         url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}"
 
         try:
+            # Send HTTP GET request
             response = requests.get(url)
-            response.raise_for_status()
-            data = response.json()
+            response.raise_for_status()  # Raise exception if status code is 4xx or 5xx
+            data = response.json()       # Convert JSON response to Python dictionary
 
+            # If the request is successful (status code 200), display weather data
             if data["cod"] == 200:
                 self.display_weather(data)
 
         except requests.exceptions.HTTPError as http_error:
+            # Handle different HTTP error codes with user-friendly messages
             match response.status_code:
                 case 400:
                     self.display_error("Bad request:\nPlease check your input")
@@ -107,8 +128,9 @@ class WeatherApp(QWidget):
                 case _:
                     self.display_error(f"HTTP error occurred:\n{http_error}")
 
+# Main entry point — runs the app
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    weather_app = WeatherApp()
-    weather_app.show()
-    sys.exit(app.exec_())
+    app = QApplication(sys.argv)  # Create application object
+    weather_app = WeatherApp()    # Instantiate the WeatherApp class
+    weather_app.show()            # Display the GUI window
+    sys.exit(app.exec_())         # Execute app loop and clean exit
