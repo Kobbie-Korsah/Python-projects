@@ -1,4 +1,4 @@
-# Import necessary modules
+# Import necessary modules - sys,requests
 import sys                    # For handling system-specific parameters and functions
 import requests               # (Not used yet, but typically for fetching weather data from an API)
 from PyQt5.QtWidgets import (  # Import necessary Qt widgets for building the GUI
