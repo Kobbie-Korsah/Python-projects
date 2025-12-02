@@ -15,9 +15,9 @@ def main():
     print_separator("F1 DASHBOARD BETA 1 - CONSOLE VERSION")
     
     # Configuration - Modify these values to fetch different data
-    SEASON = 2024
-    RACE_NUMBER = 1  # 1 = Bahrain GP (first race of 2024)
-    DRIVER_CODE = 'VER'  # Max Verstappen
+    SEASON = 2024 # F1 Season Year *Change as needed*
+    RACE_NUMBER = 1  # 1 = Bahrain GP (first race of 2024) *Change as needed*
+    DRIVER_CODE = 'VER'  # Max Verstappen *Change as needed*
     
     print(f"\n[CONFIG] Configuration:")
     print(f"   Season: {SEASON}")
@@ -92,4 +92,5 @@ def main():
     print("\n" + "="*60 + "\n")
 
 if __name__ == "__main__":
+
     main()
