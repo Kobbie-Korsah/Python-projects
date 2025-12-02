@@ -43,9 +43,10 @@ Choose a season and race, fetch results, then load telemetry or run multi-driver
 - `cache_dry_run.py`: Dry-run test for cache expiry and clearing.
 
 ## Limitations
-- UI season dropdown is 2024–2019; future seasons and pre-2019 arent exposed. FastF1 telemetry is generally reliable from 2018 onward; older seasons may not have full data.
+- UI season dropdown is 2024–2019; future seasons and pre-2019 aren't exposed. FastF1 telemetry is generally reliable from 2018 onward; older seasons may not have full data.
 - Race round mapping in `api_utils.py` is hardcoded for the 2024 calendar; future calendars need an updated mapping or a dynamic schedule fetch.
 
 ## Contributing/Testing
 - To sanity-check caching without network calls, run: `python cache_dry_run.py`.
 - Avoid committing cache directories (`app_cache/`, `f1_cache/`, or any `*.pkl`).
+
