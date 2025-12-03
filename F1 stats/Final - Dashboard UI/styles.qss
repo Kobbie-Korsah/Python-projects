@@ -1,0 +1,40 @@
+#heroTitle {
+    font-size: 28px;
+    font-weight: 700;
+    color: #e10600;
+}
+
+QMainWindow {
+    background: #0f1115;
+    color: #f2f2f2;
+}
+
+QTabWidget::pane {
+    border: 1px solid #222;
+    background: #161920;
+}
+
+QTabBar::tab {
+    padding: 10px 16px;
+    color: #f2f2f2;
+}
+
+QTabBar::tab:selected {
+    background: #1f2430;
+    color: #ffffff;
+}
+
+QLabel {
+    color: #f2f2f2;
+}
+
+QPushButton {
+    background: #e10600;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+}
+
+QPushButton:hover {
+    background: #ff2f1f;
+}
